@@ -1,0 +1,4 @@
+# OpenCV 5 removed the Haar cascade face detector (CascadeClassifier), so stay on 4.x
+opencv-python>=4.8,<5
+numpy
+Pillow
