@@ -150,7 +150,12 @@ def ask_about_my_skin():
 def bytes_to_image(data):
     """Turn uploaded/captured image bytes into an OpenCV BGR image (or None)."""
     # The bytes become a 1D numpy array, which cv2.imdecode turns into an image
+    # An empty file would make cv2.imdecode crash, so stop early
+    if len(data) == 0:
+        return None
     array = np.frombuffer(data, dtype=np.uint8)
+    # IMREAD_COLOR always gives 3 channels (drops PNG transparency, converts
+    # grayscale and 16-bit images) and applies the photo's EXIF rotation
     image = cv2.imdecode(array, cv2.IMREAD_COLOR)
     if image is None:
         return None
@@ -417,11 +422,17 @@ def analyze_page():
     with camera_tab:
         captured = st.camera_input("Face the camera in good light and take a photo")
 
-    # Analyze only when a new image arrives
+    # Analyze only when a new image arrives.
+    # If a widget is empty (removed, or reset after switching pages), forget its
+    # fingerprint, so uploading the same photo again analyzes it again.
     if uploaded is not None:
         handle_new_image(uploaded.getvalue(), "upload")
+    else:
+        st.session_state.upload_id = None
     if captured is not None:
         handle_new_image(captured.getvalue(), "camera")
+    else:
+        st.session_state.camera_id = None
 
     # Show the latest result (kept in session_state)
     if st.session_state.no_face:

@@ -5,3 +5,7 @@ primaryColor = "#0d9488"
 backgroundColor = "#0e1514"
 secondaryBackgroundColor = "#16211f"
 textColor = "#e6efed"
+
+# Privacy: do not send Streamlit's anonymous usage statistics anywhere
+[browser]
+gatherUsageStats = false

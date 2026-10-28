@@ -1,6 +1,6 @@
 # chatbot.py
 # A very basic rule-based skincare chatbot using keyword matching.
-# No internet, no AI model: it just looks for known words in the question.
+# No internet, no machine learning model: it just looks for known words in the question.
 
 import string
 from tips import get_tips, skin_type_summary, DISCLAIMER
