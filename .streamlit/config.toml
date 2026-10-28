@@ -1,0 +1,7 @@
+# Streamlit theme for Skincare Copilot (dark theme with teal accents)
+[theme]
+base = "dark"
+primaryColor = "#0d9488"
+backgroundColor = "#0e1514"
+secondaryBackgroundColor = "#16211f"
+textColor = "#e6efed"
