@@ -62,6 +62,17 @@ LABEL_COLOR = (255, 255, 255)     # white
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + CASCADE_FILE)
 
 
+def resize_image(image):
+    """Shrink very large images to MAX_IMAGE_WIDTH, keeping the aspect ratio."""
+    height, width = image.shape[:2]
+    if width > MAX_IMAGE_WIDTH:
+        scale = MAX_IMAGE_WIDTH / width
+        new_size = (MAX_IMAGE_WIDTH, int(height * scale))
+        # INTER_AREA gives the best quality when shrinking
+        image = cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
+    return image
+
+
 def load_image(path):
     """Read an image file. Returns the image (BGR) or None if it can't be read."""
     image = cv2.imread(path)
@@ -70,15 +81,7 @@ def load_image(path):
     if image is None:
         return None
 
-    # Shrink very large photos, keeping the aspect ratio
-    height, width = image.shape[:2]
-    if width > MAX_IMAGE_WIDTH:
-        scale = MAX_IMAGE_WIDTH / width
-        new_size = (MAX_IMAGE_WIDTH, int(height * scale))
-        # INTER_AREA gives the best quality when shrinking
-        image = cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
-
-    return image
+    return resize_image(image)
 
 
 def detect_face(frame):

@@ -2,3 +2,4 @@
 opencv-python>=4.8,<5
 numpy
 Pillow
+streamlit>=1.50
